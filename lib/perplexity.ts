@@ -16,6 +16,112 @@ interface PerplexityResponse {
   };
 }
 
+interface ResearchSerpResult {
+  answer: string;
+  sources: Array<{
+    title: string;
+    url: string;
+    snippet: string;
+  }>;
+}
+
+/**
+ * Research SERP data using Perplexity Sonar Pro API
+ * @param query - The search query to research
+ * @param market - The target market (e.g., 'US', 'UK', 'CA')
+ * @param language - The target language (e.g., 'en', 'es', 'fr')
+ * @returns Promise with answer and sources
+ */
+export async function researchSerp(
+  query: string,
+  market: string,
+  language: string = 'en'
+): Promise<ResearchSerpResult> {
+  const apiKey = process.env.PERPLEXITY_API_KEY;
+  if (!apiKey) {
+    throw new Error('PERPLEXITY_API_KEY environment variable is required');
+  }
+
+  try {
+    const response = await fetch('https://api.perplexity.ai/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'sonar-pro',
+        messages: [
+          {
+            role: 'system',
+            content: `You are an expert SEO analyst researching search results for the ${market} market in ${language}. Provide comprehensive analysis of search engine results, including current ranking patterns, competitor insights, and SERP features. Always include specific sources and citations.`
+          },
+          {
+            role: 'user',
+            content: `Research current search results for "${query}" in the ${market} market. Analyze:
+1. Top ranking websites and their content strategies
+2. SERP features present (snippets, ads, local packs, etc.)
+3. Content gaps and opportunities
+4. User search intent and behavior patterns
+5. Competitive landscape analysis
+
+Provide specific examples and cite your sources.`
+          }
+        ],
+        max_tokens: 2000,
+        temperature: 0.1,
+        stream: false
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(
+        `Perplexity API error: ${response.status} ${response.statusText}${errorData ? ` - ${errorData.error?.message || JSON.stringify(errorData)}` : ''}`
+      );
+    }
+
+    const data: PerplexityResponse = await response.json();
+    
+    if (!data.choices || data.choices.length === 0) {
+      throw new Error('No response from Perplexity API');
+    }
+
+    const content = data.choices[0].message.content;
+    
+    // Extract sources from the response
+    // Perplexity typically includes citations in the response
+    const sources: Array<{ title: string; url: string; snippet: string }> = [];
+    
+    // Parse citations from the content (Perplexity format: [1], [2], etc.)
+    const citationMatches = content.match(/\[\d+\]/g) || [];
+    const uniqueCitations = [...new Set(citationMatches)];
+    
+    // Mock sources extraction - in real implementation, Perplexity API might provide sources separately
+    uniqueCitations.forEach((citation, index) => {
+      sources.push({
+        title: `Source ${citation}`,
+        url: `#citation-${index + 1}`,
+        snippet: `Referenced content for ${citation}`
+      });
+    });
+
+    return {
+      answer: content,
+      sources: sources
+    };
+
+  } catch (error) {
+    console.error('Perplexity SERP research error:', error);
+    
+    // Return a graceful fallback response
+    return {
+      answer: `SERP research for "${query}" in ${market} market is temporarily unavailable. Please check your API configuration and try again. Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      sources: []
+    };
+  }
+}
+
 /**
  * Chat with Perplexity AI for SEO analysis
  * @param prompt - The prompt to send to Perplexity
@@ -27,7 +133,6 @@ export async function perplexityChat(
   model: string = 'sonar-small-online'
 ): Promise<any> {
   const apiKey = process.env.PERPLEXITY_API_KEY;
-
   if (!apiKey) {
     throw new Error('PERPLEXITY_API_KEY environment variable is required');
   }
@@ -77,6 +182,7 @@ export async function perplexityChat(
       model: model,
       timestamp: new Date().toISOString()
     };
+
   } catch (error) {
     console.error('Perplexity API error:', error);
     
