@@ -1,9 +1,7 @@
 # SEO Live Audit
-
 A comprehensive Next.js application for live SEO auditing and analysis using Perplexity AI and DataForSEO APIs.
 
 ## Features
-
 - 🔍 **Live SEO Analysis** - Real-time SEO audits powered by AI
 - 🤖 **AI-Powered Insights** - Leverages Perplexity AI for intelligent SEO recommendations
 - 📊 **Technical SEO Audit** - Comprehensive technical analysis using DataForSEO
@@ -12,7 +10,6 @@ A comprehensive Next.js application for live SEO auditing and analysis using Per
 - 📱 **Responsive Design** - Works on desktop and mobile devices
 
 ## Tech Stack
-
 - **Frontend**: Next.js 14+, TypeScript, Tailwind CSS
 - **Backend**: Next.js API Routes
 - **AI Integration**: Perplexity AI API
@@ -20,7 +17,6 @@ A comprehensive Next.js application for live SEO auditing and analysis using Per
 - **Deployment**: Vercel (recommended)
 
 ## Quick Start
-
 1. **Clone the repository**
    ```bash
    git clone https://github.com/Ricdog87/seo-live-audit.git
@@ -61,7 +57,6 @@ A comprehensive Next.js application for live SEO auditing and analysis using Per
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## Project Structure
-
 ```
 seo-live-audit/
 ├── app/                    # Next.js 14 App Router
@@ -154,7 +149,6 @@ DATAFORSEO_PASSWORD=your_password_here
 ## Development
 
 ### Available Scripts
-
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run start` - Start production server
@@ -162,22 +156,19 @@ DATAFORSEO_PASSWORD=your_password_here
 - `npm run type-check` - Run TypeScript compiler
 
 ### Adding New Features
-
-1. **Add new analysis types** in `lib/perplexity.ts`
-2. **Extend DataForSEO integration** in `lib/dataforseo.ts`
-3. **Update API routes** in `app/api/audit/route.ts`
-4. **Enhance UI** in `app/page.tsx`
+1. Add new analysis types in `lib/perplexity.ts`
+2. Extend DataForSEO integration in `lib/dataforseo.ts`
+3. Update API routes in `app/api/audit/route.ts`
+4. Enhance UI in `app/page.tsx`
 
 ## Deployment
 
 ### Vercel (Recommended)
-
 1. Connect your GitHub repository to Vercel
 2. Add environment variables in Vercel dashboard
 3. Deploy automatically on push to main
 
 ### Other Platforms
-
 This app can be deployed on any platform that supports Next.js:
 - Netlify
 - Railway
@@ -185,7 +176,6 @@ This app can be deployed on any platform that supports Next.js:
 - DigitalOcean App Platform
 
 ## Contributing
-
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
@@ -193,17 +183,14 @@ This app can be deployed on any platform that supports Next.js:
 5. Open a Pull Request
 
 ## License
-
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Support
-
 - 📚 [Detailed Setup Guide](docs/SETUP.md)
 - 💬 [GitHub Issues](https://github.com/Ricdog87/seo-live-audit/issues)
 - 📧 Contact: [Your Email]
 
 ## Roadmap
-
 - [ ] Add more SEO analysis providers
 - [ ] Implement competitor analysis dashboard
 - [ ] Add scheduling for regular audits
@@ -212,6 +199,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Integrate with Google Search Console
 - [ ] Add multi-language support
 
----
-
-**Built with ❤️ for better SEO**
+Built with ❤️ for better SEO
